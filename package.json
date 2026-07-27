@@ -1,0 +1,55 @@
+{
+  "name": "automation-studio",
+  "displayName": "Automation Studio",
+  "description": "Create and manage automation skills with interactive Markdown-based workflows",
+  "version": "0.1.0",
+  "publisher": "elhakeema7",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Productivity"
+  ],
+  "icon": "resources/icon.png",
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "automationStudio.openPanel",
+        "title": "Automation Studio"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "automationStudio",
+          "title": "Automation Studio",
+          "icon": "resources/automation-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "automationStudio": [
+        {
+          "id": "automationPanel",
+          "name": "Automation Studio"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+    "watch": "tsc -watch -p ./",
+    "compile": "tsc -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "esbuild": "^0.19.0"
+  }
+}
