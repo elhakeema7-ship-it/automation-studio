@@ -1,0 +1,31 @@
+CC = gcc
+CFLAGS = -Wall -Wextra -std=c99 -O2 -fPIC
+LDFLAGS = -lsqlite3 -lssl -lcrypto -lonnxruntime -lm
+
+SRC_DIR = src
+INCLUDE_DIR = include
+OBJ_DIR = build
+BIN_DIR = bin
+
+SOURCES = $(SRC_DIR)/main_ai.c $(SRC_DIR)/file_scanner.c $(SRC_DIR)/database.c $(SRC_DIR)/json_exporter.c $(SRC_DIR)/onnx_runtime.c $(SRC_DIR)/vector_search.c $(SRC_DIR)/semantic_engine.c
+OBJECTS = $(SOURCES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+TARGET = $(BIN_DIR)/automation-ai-engine
+
+all: directories $(TARGET)
+
+directories:
+	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(BIN_DIR)
+
+$(TARGET): $(OBJECTS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	@echo "✓ Build complete: $(TARGET)"
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
+
+clean:
+	@rm -rf $(OBJ_DIR) $(BIN_DIR)
+	@echo "✓ Cleaned"
+
+.PHONY: all clean
